@@ -1,0 +1,26 @@
+﻿@model CoreSendEmail.Models.EmailSetting
+
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <title>Send Mail</title>
+    <link rel="stylesheet" type="text/css" href="~/css/main.css">
+</head>
+<body>
+<form asp-controller="EmailSettings" asp-action="Create" method="post">
+    <h1>Send Mail</h1>
+    <input type="text" asp-for="userName" name="userName" placeholder="Email Address"><br>
+    <input type="text" asp-for="password" name="password" placeholder="Password"><br>
+    <input type="text" asp-for="senderName" name="senderName" placeholder="Sender Name"><br>
+    <input type="text" asp-for="recipientName" name="recipientName" placeholder="Recipient Name"><br>
+    <input type="text" asp-for="recipientMail" name="recipientMail" placeholder="Recipient Email"><br>
+    <input type="text" asp-for="subject" name="subject" placeholder="Subject"><br>
+    <input type="text" asp-for="content" name="content" placeholder="Content"><br>
+    <button type="submit">Send</button>
+</form>
+</body>
+</html>
+
+
