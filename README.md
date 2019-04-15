@@ -1,1 +1,1 @@
-# CoreSendMail
+# Sending email using your Gmail account

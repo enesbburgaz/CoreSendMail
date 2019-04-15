@@ -4,7 +4,7 @@
 
 h1 {
     text-align: center;
-    color: #666;
+    color: black;
 }
 
 form {
@@ -12,21 +12,24 @@ form {
     margin: 50px auto;
     width: 400px;
     padding: 30px 50px;
-    border-radius: 10px;
+    border: 1px solid black;
 }
 
-input {
+input,textarea {
     width: 100%;
     padding-left: 10px;
     margin-top: 10px;
     line-height: 35px;
-    border-radius: 5px;
+    border: 1px solid black;
     box-sizing: border-box;
+}
+textarea {
+    resize: vertical;
 }
 
 
 button {
-    background-color: mediumseagreen;
+    background-color: #006400;
     color: #fff;
     width: 100%;
     line-height: 35px;
@@ -36,5 +39,5 @@ button {
 }
 
     button:hover {
-        background-color: limegreen;
+        background-color: green;
     }

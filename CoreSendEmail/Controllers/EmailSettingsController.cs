@@ -12,12 +12,6 @@ namespace CoreSendEmail.Models
 {
     public class EmailSettingsController : Controller
     {
-        private readonly EfDbContext _context;
-
-        public EmailSettingsController(EfDbContext context)
-        {
-            _context = context;
-        }
 
         public IActionResult Index()
         {
@@ -25,35 +19,23 @@ namespace CoreSendEmail.Models
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Id,senderName,recipientName,recipientMail,subject,content,userName,password")]
-            EmailSetting emailSetting)
+        public IActionResult Create(EmailSetting emailSetting)
         {
-            if (ModelState.IsValid)
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(emailSetting.senderName, emailSetting.userName));
+            message.To.Add(new MailboxAddress(emailSetting.recipientName, emailSetting.recipientMail));
+            message.Subject = emailSetting.subject;
+            message.Body = new TextPart("plain")
             {
-                _context.Add(emailSetting);
-                await _context.SaveChangesAsync();
-
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress(emailSetting.senderName, emailSetting.userName));
-                message.To.Add(new MailboxAddress(emailSetting.recipientName, emailSetting.recipientMail));
-                message.Subject = emailSetting.subject;
-                message.Body = new TextPart("plain")
-                {
-                    Text = emailSetting.content
-                };
-                using (var client = new SmtpClient())
-                {
-                    client.Connect("smtp.gmail.com", 587, false);
-                    client.Authenticate(emailSetting.userName, emailSetting.password);
-                    client.Send(message);
-                    client.Disconnect(true);
-                }
-
-                return RedirectToAction(nameof(Create));
+                Text = emailSetting.content
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate(emailSetting.userName, emailSetting.password);
+                client.Send(message);
+                client.Disconnect(true);
             }
-
             return RedirectToAction("Index", "EmailSettings");
         }
     }
